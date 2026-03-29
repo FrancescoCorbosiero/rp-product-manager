@@ -141,16 +141,12 @@ rp_bulk_update_variations(array $updates): array
 
 ## Catalogo Prodotti
 
-Il catalogo è definito in `catalog.json` e `catalogo.csv` con questa struttura:
+I file catalogo (`catalogo.csv`, `catalog.json`, ecc.) **non sono ancora nel repo**.
+Verranno forniti dal developer — la struttura effettiva potrebbe differire da quanto descritto in `docs/CATALOG_STRUCTURE.md`.
 
-```
-Sezione, Marca, Sottocategoria, SKU, Titolo, Query, Taglie, Prezzo, Prezzo Scontato
-```
+Quando saranno disponibili, fare riferimento al file reale, non alla documentazione pregressa.
 
-- **SKU format**: `BRAND-MODEL-DETAIL` (es. `NK-DL-BLK-LIME`, `AJ4-BLACKCAT-2025`)
-- **Taglie**: numeri EU separati da `|` (es. `40|40.5|41|42|42.5|43|44`)
-- Le taglie corrispondono a **varianti WooCommerce** (`product_type = variable`)
-- Attributo variante cercato da `rp_get_product_variations()` con regex: `/(taglia|size|misura|eu|uk|us|fr|cm)/i`
+**Nota tecnica:** l'attributo variante taglia viene cercato da `rp_get_product_variations()` con regex: `/(taglia|size|misura|eu|uk|us|fr|cm)/i`
 
 ---
 
@@ -170,14 +166,18 @@ I meta field Rank Math sono salvati come post meta standard:
 
 ---
 
-## Roadmap e Prossimi Sviluppi
+## Stato del Progetto
 
-Vedi `docs/ROADMAP.md` per la lista completa. In sintesi, i prossimi task prioritari sono:
+Il plugin è **feature-complete (v1.0)** per il suo scope:
+- CRUD prodotti completo (backend + UI)
+- Gestione varianti con bulk editing
+- Integrazione SEO Rank Math
+- JSON editor per operazioni flessibili
 
-1. **Bulk import da CSV** — leggere `catalogo.csv` e creare prodotti variabili in batch
-2. **Price sync** — aggiornamento prezzi da feed esterno
-3. **Stock alerts** — notifica quando una variante va a zero
-4. **Image upload helper** — associare immagini ai prodotti via path/URL
+**Non sono previste nuove feature fuori dallo scope del plugin.**
+Il lavoro futuro riguarda esclusivamente miglioramenti e raffinamenti di ciò che esiste.
+
+Vedi `docs/ROADMAP.md` per dettagli.
 
 ---
 
@@ -186,12 +186,9 @@ Vedi `docs/ROADMAP.md` per la lista completa. In sintesi, i prossimi task priori
 | File | Contenuto |
 |---|---|
 | `docs/ARCHITECTURE.md` | Architettura dettagliata del plugin |
-| `docs/API_REFERENCE.md` | Documentazione completa di ogni funzione |
-| `docs/ROADMAP.md` | Feature built + backlog prioritizzato |
+| `docs/ROADMAP.md` | Stato attuale + miglioramenti futuri |
 | `docs/SEO_PROMPT_TEMPLATE.md` | Template prompt per generare contenuto SEO prodotti |
-| `catalogo.csv` | Catalogo prodotti ResellPiacenza |
-| `catalog_corteiz.csv` | Sub-catalogo brand Corteiz |
-| `catalog.json` | Versione JSON del catalogo |
+| `docs/CATALOG_STRUCTURE.md` | Convenzioni catalogo (da aggiornare con file reali) |
 
 ---
 

@@ -1,10 +1,10 @@
 # ROADMAP — RP Product Manager
 
-## Stato Attuale (v1.0.0)
+## Stato Attuale — v1.0 (Feature-Complete)
 
-### ✅ Completato
+Il plugin è completo per il suo scope. Tutte le funzionalità core sono implementate e funzionanti.
 
-#### PHP Layer (crud.php + variations.php)
+### PHP Layer (crud.php + variations.php)
 - [x] `rp_get_product()` — lettura completa prodotto + meta Rank Math
 - [x] `rp_create_product()` — creazione prodotto simple con tutti i campi
 - [x] `rp_update_product()` — update selettivo (solo campi presenti nel payload)
@@ -14,7 +14,7 @@
 - [x] `rp_update_variation()` — aggiorna singola variante + sync prodotto padre
 - [x] `rp_bulk_update_variations()` — aggiorna N varianti in una chiamata
 
-#### AJAX Layer (ajax.php)
+### AJAX Layer (ajax.php)
 - [x] `rp_ajax_read`
 - [x] `rp_ajax_create`
 - [x] `rp_ajax_update`
@@ -23,7 +23,7 @@
 - [x] `rp_ajax_get_variations`
 - [x] `rp_ajax_save_variations`
 
-#### Admin UI (admin-page.php)
+### Admin UI (admin-page.php)
 - [x] Search bar con dropdown (ID / SKU / titolo, 280ms debounce, keyboard nav)
 - [x] Product card (stato attivo, nome, SKU, prezzo, status badge)
 - [x] Tab: Varianti — tabella inline editabile con dirty tracking visivo
@@ -38,94 +38,29 @@
 
 ---
 
-## Backlog Prioritizzato
+## Principio Guida
 
-### 🔴 P0 — Alta priorità / Prossimi sprint
-
-#### Bulk Import da CSV
-**Contesto:** Il catalogo esiste già in `catalogo.csv` (217 prodotti). Serve importare prodotti variabili con tutte le taglie senza inserirli uno a uno.
-
-**Scope:**
-- Nuova funzione `rp_import_product_from_row(array $csv_row): int|WP_Error`
-- Gestisce tipo `variable` con creazione automatica varianti per taglia
-- Mappa colonne CSV → campi WooCommerce
-- AJAX endpoint `rp_ajax_bulk_import` con progress tracking
-- UI: tab "Import" con file upload CSV + preview + progress bar
-
-**File CSV attesi:**
-```
-Sezione, Marca, Sottocategoria, SKU, Titolo, Query, Taglie, Prezzo, Prezzo Scontato
-```
-Taglie formato: `40|40.5|41|42` (pipe-separated EU sizes)
+**Non sono previste nuove feature fuori dallo scope del plugin.**
+Il lavoro futuro riguarda esclusivamente miglioramenti, bug fix e raffinamenti di ciò che esiste già.
 
 ---
 
-#### Stock Management avanzato
-**Contesto:** Il titolare vuole sapere subito quando una taglia va a zero.
+## Miglioramenti Futuri (solo su richiesta esplicita)
 
-**Scope:**
-- `rp_get_low_stock_variations(int $threshold = 1): array` — lista varianti con stock ≤ threshold
-- AJAX endpoint `rp_ajax_low_stock`
-- UI: badge nel tab Varianti quando ci sono taglie esaurite
-- (futuro) Email/notifica admin automatica
+Queste sono idee catalogate, non impegni. Si affrontano solo quando il developer le richiede.
 
----
-
-#### Ricerca prodotti migliorata
-**Scope:**
-- Filtrare per categoria nella search dropdown
-- Filtrare per status (published / draft / all)
-- Aggiungere risultati paginati (ora hardcoded a 8)
+- [ ] Miglioramenti UX alla UI esistente (accessibility, touch target, responsive edge cases)
+- [ ] Ottimizzazioni performance sulle query di ricerca
+- [ ] Raffinamenti dirty tracking e gestione errori
+- [ ] Miglioramenti al feedback visivo (stati di loading, conferme)
 
 ---
 
-### 🟡 P1 — Media priorità
+## Decisioni Architetturali
 
-#### Image Helper
-**Contesto:** Associare immagini ai prodotti è lento via UI WP.
-
-**Scope:**
-- `rp_set_product_image_from_url(int $product_id, string $url): int|WP_Error`
-  — scarica immagine, la aggiunge alla media library, la imposta come featured
-- `rp_set_product_gallery_from_urls(int $product_id, array $urls): array`
-- AJAX endpoints + UI nel tab Prodotto
-
----
-
-#### Duplicate Product
-**Scope:**
-- `rp_duplicate_product(int $product_id): int|WP_Error`
-  — clona prodotto incluse varianti e meta, in stato draft
-- Utile per prodotti con colorway diverso dello stesso modello
-
----
-
-#### Price Batch Update
-**Contesto:** Quando il titolare vuole applicare un markup percentuale a una categoria.
-
-**Scope:**
-- `rp_apply_price_multiplier(array $product_ids, float $multiplier): array`
-- UI: input "moltiplica prezzi per X" nella bulk toolbar
-
----
-
-### 🟢 P2 — Bassa priorità / Futuro
-
-- [ ] **Export CSV** — esporta prodotti filtrati in formato catalogo
-- [ ] **Variation attribute builder** — UI per creare/modificare attributi WC (attualmente solo via WP Admin)
-- [ ] **SEO bulk** — applica meta title/description/keyword a N prodotti con template
-- [ ] **Change log** — log delle modifiche fatte tramite il plugin (chi, cosa, quando)
-- [ ] **WP-CLI commands** — `wp rp import`, `wp rp sync-stock`, ecc. per automazione server-side
-- [ ] **Unit tests** — PHPUnit per le funzioni `rp_*`
-- [ ] **REST API endpoints** — esporre le funzioni `rp_*` anche via REST (per integrazioni esterne)
-
----
-
-## Decisioni Architetturali da Rivedere
-
-| Decisione | Motivazione attuale | Da rivalutare quando |
-|---|---|---|
-| Nessun Composer | Zero complessità di setup | Si aggiungono librerie esterne |
-| Vanilla JS (no build) | Deploy immediato, zero toolchain | UI diventa troppo complessa |
-| Tutto in un plugin | Semplicità | Si separa logica da più plugin client |
-| PHP 8.0 minimo | Sintassi moderna | Il VPS è su versione precedente |
+| Decisione | Motivazione |
+|---|---|
+| Nessun Composer | Zero complessità di setup, zero dipendenze esterne |
+| Vanilla JS (no build) | Deploy immediato, zero toolchain, compatibilità WP Admin |
+| Tutto in un plugin | Semplicità, un solo deploy |
+| PHP 8.0 minimo | Sintassi moderna (null-safe, union types, named args) |
