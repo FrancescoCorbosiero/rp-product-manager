@@ -1,0 +1,35 @@
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/upgrade/
+
+# Dependencies
+vendor/
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+debug.log
+error_log
+
+# Credentials / secrets
+credentials.json
+*.pem
+*.key
